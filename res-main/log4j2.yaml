@@ -1,13 +1,13 @@
-Configuration:
-  Appenders:
-    Console:
-      PatternLayout:
+configuration:
+  appenders:
+    console:
+      patternlayout:
         pattern: "%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"
       name: Console
       target: SYSTEM_OUT
-  Loggers:
-    Root:
-      AppenderRef:
+  loggers:
+    root:
+      appenderref:
         ref: Console
       level: info
   status: WARN

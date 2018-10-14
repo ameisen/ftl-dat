@@ -14,14 +14,14 @@ import java.util.Arrays;
 @SuppressWarnings({"unused, WeakerAccess"})
 public final class utilities {
 
-	@NotNull @Pure @Immutable @Contract(value = "null -> fail; !null -> param1", pure = true)
+	@NotNull @Pure @Immutable @Contract(value = "null -> fail; !null -> _", pure = true)
 	public static <E extends Throwable> E trimFrame(
 		@NotNull @Mutable final E exception
 	) {
 		return trimFrames(exception, 1);
 	}
 
-	@NotNull @Pure @Immutable @Contract(value = "null, _ -> fail; !null, _ -> param1", pure = true)
+	@NotNull @Pure @Immutable @Contract(value = "null, _ -> fail; !null, _ -> _", pure = true)
 	public static <E extends Throwable> E trimFrames(
 		@NotNull @Mutable final E exception,
 		@NotNegative final int frames

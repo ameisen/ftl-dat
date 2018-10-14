@@ -24,7 +24,7 @@
 	</organization>
 	<licenses>
 		<license>
-			<name>Apache License, Version 2.0</name>
+			<name>Apache License 2.0</name>
 			<url>https://www.apache.org/licenses/LICENSE-2.0</url>
 			<distribution>repo</distribution>
 		</license>
@@ -72,7 +72,7 @@
 
 		<checker.version>[2.5.6, )</checker.version>
 		<jackson.version>[2.9.7, )</jackson.version>
-		<slf4j.version>[1.7.25, )</slf4j.version>
+		<slf4j.version>[1.8.0-beta2, )</slf4j.version>
 		<asm.version>[7.0-beta, )</asm.version>
 	</properties>
 
@@ -303,12 +303,32 @@
 			<artifactId>jackson-databind</artifactId>
 			<version>${jackson.version}</version>
 			<scope>provided</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>com.fasterxml.jackson.core</groupId>
+					<artifactId>jackson-annotations</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.fasterxml.jackson.core</groupId>
+					<artifactId>jackson-core</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.dataformat</groupId>
 			<artifactId>jackson-dataformat-yaml</artifactId>
 			<version>${jackson.version}</version>
 			<scope>provided</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.yaml</groupId>
+					<artifactId>snakeyaml</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.fasterxml.jackson.core</groupId>
+					<artifactId>jackson-core</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
