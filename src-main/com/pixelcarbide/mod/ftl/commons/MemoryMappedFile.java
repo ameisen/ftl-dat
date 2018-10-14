@@ -52,10 +52,6 @@ public abstract class MemoryMappedFile implements AutoCloseable {
 
 	@Contract(pure = true)
 	public final void setOffset (@NotNegative final int offset) throws IndexOutOfBoundsException {
-		if (offset == currentOffset) {
-			return;
-		}
-
 		//noinspection ConstantConditions
 		if (offset < 0) {
 			throw new IndexOutOfBoundsException(
@@ -66,6 +62,10 @@ public abstract class MemoryMappedFile implements AutoCloseable {
 			throw new IndexOutOfBoundsException(
 				String.format("MemoryMappedFile::setOffset offset '%d' is larger than length '%d'", offset, length)
 			);
+		}
+
+		if (offset == currentOffset) {
+			return;
 		}
 
 		buffer.position(offset);
@@ -79,12 +79,7 @@ public abstract class MemoryMappedFile implements AutoCloseable {
 
 	@Contract(pure = true)
 	public final boolean has (@NotNegative final int size) throws IllegalArgumentException {
-		//noinspection ConstantConditions
-		if (size < 0) {
-			throw new IllegalArgumentException(
-				String.format("MemoryMappedFile::has size '%d' is negative", size)
-			);
-		}
+		assert size >= 0;
 
 		return size <= (length - currentOffset);
 	}
@@ -119,12 +114,7 @@ public abstract class MemoryMappedFile implements AutoCloseable {
 	@Valid @Contract("_ -> new") @NotAliased
 	public final ByteBuffer read(@Positive final int size)
 		throws BufferUnderflowException, IllegalArgumentException {
-		//noinspection ConstantConditions
-		if (size <= 0) {
-			throw new IllegalArgumentException(
-				String.format("MemoryMappedFile::read size '%d' is negative or zero", size)
-			);
-		}
+		assert size > 0;
 
 		@Valid @NotAliased val bytes = new byte[size];
 		buffer.get(size);
@@ -134,12 +124,7 @@ public abstract class MemoryMappedFile implements AutoCloseable {
 	@Valid @Contract("_, _ -> new") @NotAliased
 	public final ByteBuffer read(@NotNegative final int offset, @Positive final int size)
 		throws BufferUnderflowException, IllegalArgumentException {
-		//noinspection ConstantConditions
-		if (size <= 0) {
-			throw new IllegalArgumentException(
-				String.format("MemoryMappedFile::read size '%d' is negative or zero", size)
-			);
-		}
+		assert size > 0;
 
 		setOffset(offset);
 

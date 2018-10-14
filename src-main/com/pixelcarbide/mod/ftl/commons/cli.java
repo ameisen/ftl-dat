@@ -12,35 +12,31 @@ import org.jetbrains.annotations.Contract;
 
 import java.util.HashMap;
 
-@UtilityClass @Immutable @SuppressWarnings("unused")
+@UtilityClass @Immutable @SuppressWarnings({"unused, WeakerAccess"})
 public final class cli {
 	public static final class OptionGroupEx extends OptionGroup {
 		private static @NotNull final HashMap<String, Option> storedOptions = new HashMap<>();
 
-		@NotNull @Contract(value = "null -> fail; !null -> this", pure = true)
-		public OptionGroupEx addOptions(@Valid Option... options) {
-			if (options == null) {
-				throw new IllegalArgumentException("OptionGroupEx::addOptions::options is null");
-			}
+		@Contract(value = "null -> fail", pure = true)
+		public void addOptions(@Valid Option... options) {
+			assert predicates.isValid(options);
 
 			for (val option : options) {
+				assert option != null;
 				this.addOption(option);
 				storedOptions.put(option.getArgName(), option);
 			}
-			return this;
 		}
-		@NotNull @Contract(value = "null -> fail; !null -> this", pure = true)
-		public OptionGroupEx addOptions(@Valid Option.Builder... options) {
-			if (options == null) {
-				throw new IllegalArgumentException("OptionGroupEx::addOptions::options is null");
-			}
+		@Contract(value = "null -> fail", pure = true)
+		public void addOptions(@Valid Option.Builder... options) {
+			assert predicates.isValid(options);
 
 			for (val builder : options) {
+				assert builder != null;
 				val option = builder.build();
 				this.addOption(option);
 				storedOptions.put(option.getArgName(), option);
 			}
-			return this;
 		}
 
 		@NotNull @Contract(value = "null -> fail; !null -> new", pure = true) @NotAliased
@@ -61,9 +57,7 @@ public final class cli {
 		public Option getSelection() {
 			val selectedName = super.getSelected();
 			val option = storedOptions.get(selectedName);
-			if (option == null) {
-				throw new RuntimeException("OptionGroupEx::getSelected somehow is returning null");
-			}
+			assert option != null;
 			return option;
 		}
 	}
